@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
+@layer components {
+  .gradient-bg {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  }
+
+  .glass-card {
+    @apply bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 shadow-2xl;
+  }
+
+  .medical-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .stat-card {
+    @apply bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-blue-500/50;
+  }
+
+  .result-card-success {
+    @apply bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-2 border-green-500/50 backdrop-blur-sm;
+  }
+
+  .result-card-error {
+    @apply bg-gradient-to-br from-red-900/20 to-rose-900/20 border-2 border-red-500/50 backdrop-blur-sm;
+  }
+
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    to {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+    }
+  }
+  
+  .neon-glow {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3), 0 0 35px rgba(59, 130, 246, 0.1);
+  }
+  
+  .dark-input {
+    @apply bg-gray-800 border-gray-600 text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500/20;
+  }
+  
+  .cyber-border {
+    position: relative;
+  }
+  
+  .cyber-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+}

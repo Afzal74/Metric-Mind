@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 Forensic Gender Classifier - Team Metric Mind</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Metric Mind</h1>
+            <p>🧬 Forensic Gender Classifier</p>
+            <p>ML-Based Gender Classification using 15 Mandibular Measurements</p>
+        </div>
+
+        <div class="content">
+            <div class="info-card">
+                <h3>📊 Model Information</h3>
+                <p><strong>Best Model:</strong> Logistic Regression</p>
+                <p><strong>Accuracy:</strong> 75.00%</p>
+                <p><strong>Features:</strong> 15 mandibular measurements</p>
+                <p><strong>Dataset:</strong> 156 samples (103 Male, 53 Female)</p>
+            </div>
+
+            <div class="sample-data">
+                <h4>🧪 Quick Test</h4>
+                <p>Want to try with sample data? Click below to fill the form with example measurements:</p>
+                <button class="sample-btn" onclick="fillSampleData()">Fill Sample Data</button>
+                <button class="sample-btn" onclick="loadSampleFromAPI()" style="margin-left: 10px;">Load API Sample</button>
+            </div>
+
+            <form id="predictionForm">
+                <div class="form-grid" id="formGrid">
+                    <!-- Form fields will be dynamically generated -->
+                </div>
+
+                <button type="submit" class="predict-btn" id="predictBtn">
+                    🔍 Predict Gender
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing measurements...</p>
+            </div>
+
+            <div class="result-card" id="resultCard">
+                <div id="resultContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
