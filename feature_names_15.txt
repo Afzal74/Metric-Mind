@@ -1,0 +1,15 @@
+M1 Length
+M2 Bicondylar breadth
+M3 Mandibular index
+M3 Bigonial breadth
+M5 URB
+M6 LRB
+M7 CondRH
+M8 CorRH
+M9 Gonial angle
+M10 Cor length
+M11 Cor breadth
+M12 C-C distance
+M13 Inter cor distance
+M14 Cor-Fr distance
+M15 Bimental breadth
