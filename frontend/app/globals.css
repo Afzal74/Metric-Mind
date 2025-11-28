@@ -89,4 +89,59 @@
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: exclude;
   }
+
+  /* 3D Viewer Specific Styles */
+  .viewer-canvas {
+    @apply rounded-xl overflow-hidden border border-gray-700 shadow-2xl;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+  }
+
+  .landmark-tooltip {
+    @apply bg-black/80 text-white text-xs px-2 py-1 rounded backdrop-blur-sm border border-gray-600;
+  }
+
+  .measurement-line {
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+
+  .morph-progress {
+    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500;
+    background-size: 200% 100%;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .feature-highlight {
+    @apply ring-2 ring-blue-400 ring-opacity-50 bg-blue-900/20;
+    animation: feature-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes feature-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  .loading-spinner {
+    @apply animate-spin;
+    animation-duration: 1s;
+  }
+
+  .viewer-overlay {
+    @apply absolute top-0 left-0 right-0 bottom-0 pointer-events-none;
+    background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.3) 100%);
+  }
 }

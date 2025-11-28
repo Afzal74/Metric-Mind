@@ -1,8 +1,18 @@
-# 🧬 Forensic Gender Classifier
+# 🧬 Forensic Gender Classifier - MetricMind
 
-**Team Metric Mind - VTU CSE Project**
+**Team Metric Mind - VTU CSE Project 2024**
 
-ML-Based Gender Classification using 15 Mandibular Measurements with 75% accuracy using Logistic Regression.
+Advanced ML-Based Gender Classification using 15 Mandibular Measurements with 75% accuracy using Logistic Regression, featuring real-time 3D visualization and AI-powered explanations.
+
+## ✨ Features
+
+- 🤖 **AI-Powered Classification** - Logistic Regression model with 75% accuracy
+- 🧠 **Gemini 2.5 Flash Integration** - AI-generated explanations for predictions
+- 🎨 **Real 3D Mandible Model** - Interactive OBJ-based 3D visualization
+- 📊 **Sexual Dimorphism Analysis** - Real-time morphing between male/female characteristics
+- 📈 **Interactive Charts** - Visual representation of prediction probabilities
+- 📄 **PDF Report Generation** - Professional forensic analysis reports
+- 🎯 **15 Osteometric Measurements** - Comprehensive mandibular analysis
 
 ## 📁 Project Structure
 

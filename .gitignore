@@ -120,10 +120,131 @@ jspm_packages/
 .yarn/install-state.gz
 .pnp.*
 
-# Model files (optional - uncomment if you want to exclude large model files)
-# *.pkl
-# *.joblib
+# Machine Learning Model files
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.onnx
+
+# 3D Model files (keep base.obj but exclude large models)
+# Note: base.obj is kept in repo for the 3D viewer
+# *.obj
+# *.glb
+# *.gltf
+*.fbx
+*.dae
+*.stl
+
+# Dataset files
+*.xlsx
+*.csv
+*.xls
+Metric_Final.xlsx
 
 # Temporary files
 *.tmp
 *.temp
+
+# Python cache
+*.pyc
+__pycache__/
+
+# Frontend build artifacts
+.next/
+out/
+dist/
+build/
+
+# Environment files (IMPORTANT: Keep these private!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+
+# API Keys (CRITICAL: Never commit these!)
+**/GEMINI_API_KEY*
+**/api_keys*
+**/secrets*
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Large data files
+data/
+datasets/
+*.zip
+*.tar.gz
+*.rar
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# Python virtual environments
+venv/
+env/
+ENV/
+.venv/
+virtualenv/
+
+# Node modules
+node_modules/
+.pnpm-store/
+
+# Package manager lock files (optional - uncomment if you want to exclude)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local development
+.local/
+.cache/
+
+# Documentation build
+docs/_build/
+site/
