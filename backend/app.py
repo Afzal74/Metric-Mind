@@ -199,26 +199,16 @@ def generate_ai_explanation(measurements, prediction_result, feature_names):
             print("⚠️ Gemini model not available")
             return f"AI analysis unavailable (Gemini not configured). The model predicted {prediction_result['gender_full']} based on the mandibular measurements provided, with {prediction_result['confidence']}% confidence."
         
-        # Create a detailed prompt for Gemini
-        prompt = f"""As a forensic anthropologist, provide a CONCISE analysis (1-2 sentences per section) explaining why the AI predicted {prediction_result['gender_full']} with {prediction_result['confidence']}% confidence.
+        # Create a concise prompt for Gemini
+        prompt = f"""Provide a brief forensic analysis (3-4 sentences max) explaining why the AI predicted {prediction_result['gender_full']} with {prediction_result['confidence']}% confidence.
 
-MEASUREMENTS: {', '.join([f'{feature}: {value}' for feature, value in zip(feature_names, measurements)])}
+Key measurements: Mandibular length {measurements[0]}mm, Bicondylar breadth {measurements[1]}mm, Bigonial breadth {measurements[3]}mm, Gonial angle {measurements[8]}°.
 
-PREDICTION: {prediction_result['gender_full']} ({prediction_result['confidence']}% confidence)
+Explain in simple terms:
+1. Which 2-3 measurements most indicate {prediction_result['gender_full']}?
+2. Why is the confidence {prediction_result['confidence']}%?
 
-Provide BRIEF explanations for:
-
-1. **Key Features**: Which 2-3 measurements most indicate {prediction_result['gender_full']}? (1-2 sentences max)
-
-2. **Comparison**: How do these compare to typical {prediction_result['gender_full'].lower()} vs opposite gender patterns? (1-2 sentences max)
-
-3. **Science**: What biological factors explain this? (1-2 sentences max)
-
-4. **Confidence**: Why {prediction_result['confidence']}% confident? (1 sentence max)
-
-5. **Notable**: Any interesting observations? (1 sentence max)
-
-Keep each section to 1-2 sentences maximum. Be concise and scientific."""
+Keep it concise and professional - maximum 4 sentences total."""
 
         print("🤖 Generating AI explanation...")
         response = gemini_model.generate_content(prompt)
@@ -226,10 +216,31 @@ Keep each section to 1-2 sentences maximum. Be concise and scientific."""
         return response.text
         
     except Exception as e:
-        print(f"❌ Error generating AI explanation: {e}")
-        import traceback
-        traceback.print_exc()
-        return f"AI analysis temporarily unavailable due to technical error. The model predicted {prediction_result['gender_full']} based on the mandibular measurements provided, with {prediction_result['confidence']}% confidence."
+        error_msg = str(e)
+        print(f"❌ Error generating AI explanation: {error_msg}")
+        print(f"❌ Error type: {type(e).__name__}")
+        
+        # Check for specific API key issues
+        if "leaked" in error_msg.lower() or "permission" in error_msg.lower():
+            print("🔑 API Key Issue: The Gemini API key appears to be invalid or leaked")
+        elif "not found" in error_msg.lower():
+            print("🤖 Model Issue: The specified Gemini model was not found")
+        
+        # Provide a concise fallback explanation
+        fallback = f"""**MetricMind AI Analysis**
+
+The model predicted **{prediction_result['gender_full']}** with **{prediction_result['confidence']}% confidence** based on mandibular morphometric analysis.
+
+**Key Indicators:**
+• Mandibular measurements show patterns consistent with {prediction_result['gender_full'].lower()} morphology
+• Analysis based on 15 standardized forensic measurements
+• Confidence level: {'Very High' if prediction_result['confidence'] > 90 else 'High' if prediction_result['confidence'] > 80 else 'Moderate' if prediction_result['confidence'] > 60 else 'Low'}
+
+**Method:** Logistic Regression trained on 156 forensic samples (75% accuracy)
+
+*Advanced AI analysis temporarily unavailable.*"""
+        
+        return fallback
 
 if __name__ == '__main__':
     print("🚀 Starting Forensic Gender Classifier API...")

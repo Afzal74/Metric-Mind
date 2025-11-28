@@ -215,44 +215,44 @@ export default function Home() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="mb-8"
             >
-              <Card className={cn(
-                "border-2",
+              <div className={cn(
+                "glass-card p-4 border-2",
                 apiHealth.models_loaded 
-                  ? "border-green-200 bg-green-50" 
-                  : "border-red-200 bg-red-50"
+                  ? "border-green-500/30 bg-gradient-to-r from-green-900/20 to-emerald-900/20" 
+                  : "border-red-500/30 bg-gradient-to-r from-red-900/20 to-rose-900/20"
               )}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      {apiHealth.models_loaded ? (
-                        <CheckCircle className="w-6 h-6 text-green-600" />
-                      ) : (
-                        <AlertCircle className="w-6 h-6 text-red-600" />
-                      )}
-                      <div>
-                        <p className={cn(
-                          "font-semibold",
-                          apiHealth.models_loaded ? "text-green-800" : "text-red-800"
-                        )}>
-                          {apiHealth.models_loaded ? "System Ready" : "System Error"}
-                        </p>
-                        <p className={cn(
-                          "text-sm",
-                          apiHealth.models_loaded ? "text-green-600" : "text-red-600"
-                        )}>
-                          {apiHealth.message}
-                        </p>
-                      </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    {apiHealth.models_loaded ? (
+                      <CheckCircle className="w-6 h-6 text-green-400" />
+                    ) : (
+                      <AlertCircle className="w-6 h-6 text-red-400" />
+                    )}
+                    <div>
+                      <p className={cn(
+                        "font-semibold",
+                        apiHealth.models_loaded ? "text-green-300" : "text-red-300"
+                      )}>
+                        {apiHealth.models_loaded ? "System Ready" : "System Error"}
+                      </p>
+                      <p className={cn(
+                        "text-sm",
+                        apiHealth.models_loaded ? "text-green-400" : "text-red-400"
+                      )}>
+                        {apiHealth.message}
+                      </p>
                     </div>
-                    <Badge 
-                      variant={apiHealth.models_loaded ? "success" : "destructive"}
-                      className="pulse-glow"
-                    >
-                      {apiHealth.models_loaded ? "ONLINE" : "OFFLINE"}
-                    </Badge>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className={cn(
+                    "px-3 py-1 rounded-full text-xs font-medium border",
+                    apiHealth.models_loaded 
+                      ? "bg-green-500/20 text-green-400 border-green-500/30 pulse-glow" 
+                      : "bg-red-500/20 text-red-400 border-red-500/30"
+                  )}>
+                    {apiHealth.models_loaded ? "ONLINE" : "OFFLINE"}
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -302,37 +302,33 @@ export default function Home() {
           transition={{ delay: 1.4, duration: 0.8 }}
           className="mb-8"
         >
-          <Card className="glass-card border-amber-500/30 bg-gradient-to-r from-amber-900/20 to-yellow-900/20">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-gray-100">
+          <div className="glass-card border-amber-500/30 bg-gradient-to-r from-amber-900/20 to-yellow-900/20 p-6 rounded-2xl">
+            <div className="mb-4">
+              <h3 className="flex items-center space-x-2 text-xl font-bold text-gray-100 mb-2">
                 <FlaskConical className="w-6 h-6 text-amber-400" />
                 <span>Quick Test Laboratory</span>
-              </CardTitle>
-              <CardDescription>
+              </h3>
+              <p className="text-gray-400">
                 Load pre-validated sample measurements to test the AI model instantly
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  onClick={loadSampleData}
-                  variant="secondary"
-                  className="flex-1"
-                >
-                  <Database className="w-4 h-4 mr-2" />
-                  Load Sample Data
-                </Button>
-                <Button 
-                  onClick={clearForm}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <XCircle className="w-4 h-4 mr-2" />
-                  Clear Form
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={loadSampleData}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105"
+              >
+                <Database className="w-4 h-4" />
+                Load Sample Data
+              </button>
+              <button 
+                onClick={clearForm}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-gray-300 hover:text-white font-medium rounded-xl transition-all duration-300"
+              >
+                <XCircle className="w-4 h-4" />
+                Clear Form
+              </button>
+            </div>
+          </div>
         </motion.div>
 
         {/* Main Form */}
@@ -341,71 +337,69 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6, duration: 0.8 }}
         >
-          <Card className="glass-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-2xl text-gray-100">
+          <div className="glass-card p-8 rounded-3xl">
+            <div className="mb-8">
+              <h2 className="flex items-center space-x-2 text-2xl font-bold text-gray-100 mb-2">
                 <Stethoscope className="w-8 h-8 text-blue-400" />
                 <span>Mandibular Measurements Input</span>
-              </CardTitle>
-              <CardDescription className="text-lg">
+              </h2>
+              <p className="text-lg text-gray-400">
                 Enter the 15 mandibular measurements for AI-powered gender classification
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handlePredict} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {features.map((feature, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.8 + index * 0.05, duration: 0.4 }}
-                      className="space-y-2"
-                    >
-                      <label className="block text-sm font-semibold text-gray-300">
-                        <span className="text-blue-400">M{index + 1}.</span> {feature}
-                      </label>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        value={measurements[index] || ''}
-                        onChange={(e) => handleInputChange(index, e.target.value)}
-                        placeholder={`Enter ${feature.toLowerCase()}`}
-                        className="transition-all duration-300 focus:scale-105"
-                        required
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.5, duration: 0.6 }}
-                  className="text-center pt-8"
-                >
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    size="lg"
-                    className="min-w-[250px] text-lg"
+              </p>
+            </div>
+            
+            <form onSubmit={handlePredict} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.8 + index * 0.05, duration: 0.4 }}
+                    className="space-y-2"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-6 h-6 mr-3 animate-spin" />
-                        Analyzing Measurements...
-                      </>
-                    ) : (
-                      <>
-                        <Brain className="w-6 h-6 mr-3" />
-                        Predict Gender
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
-              </form>
-            </CardContent>
-          </Card>
+                    <label className="block text-sm font-semibold text-gray-300">
+                      <span className="text-blue-400">M{index + 1}.</span> {feature}
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={measurements[index] || ''}
+                      onChange={(e) => handleInputChange(index, e.target.value)}
+                      placeholder={`Enter ${feature.toLowerCase()}`}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all duration-300 focus:scale-105"
+                      required
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.5, duration: 0.6 }}
+                className="text-center pt-8"
+              >
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="min-w-[250px] px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold text-lg rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-6 h-6 mr-3 animate-spin inline" />
+                      Analyzing Measurements...
+                    </>
+                  ) : (
+                    <>
+                      <Brain className="w-6 h-6 mr-3 inline" />
+                      Predict Gender
+                    </>
+                  )}
+                </button>
+              </motion.div>
+            </form>
+          </div>
         </motion.div>
 
         {/* Results Section */}
@@ -418,67 +412,62 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="mt-8"
             >
-              <Card className={cn(
-                "overflow-hidden",
+              <div className={cn(
+                "overflow-hidden rounded-3xl p-8",
                 result.success ? "result-card-success" : "result-card-error"
               )}>
-                <CardContent className="p-8">
-                  {result.success && result.prediction ? (
-                    <div className="text-center space-y-6">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                        className="text-8xl mb-6"
-                      >
-                        {getGenderIcon(result.prediction.gender)}
-                      </motion.div>
-                      
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 0.6 }}
-                      >
-                        <h2 className="text-4xl font-bold text-gray-900 mb-2">
-                          {result.prediction.gender_full}
-                        </h2>
-                        <p className={cn(
-                          "text-2xl font-semibold mb-6",
-                          getConfidenceColor(result.prediction.confidence)
-                        )}>
-                          Confidence: {formatConfidence(result.prediction.confidence)}
-                        </p>
-                      </motion.div>
+                {result.success && result.prediction ? (
+                  <div className="text-center space-y-6">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                      className="text-8xl mb-6"
+                    >
+                      {result.prediction.gender === 'F' ? '👩' : '👨'}
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.6 }}
+                    >
+                      <h2 className="text-4xl font-bold text-white mb-2 orbitron-font">
+                        {result.prediction.gender_full}
+                      </h2>
+                      <p className="text-2xl font-semibold mb-6 text-green-400">
+                        Confidence: {(result.prediction.confidence * 100).toFixed(1)}%
+                      </p>
+                    </motion.div>
 
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.6 }}
-                        className="grid grid-cols-2 gap-6 max-w-md mx-auto"
-                      >
-                        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/30">
-                          <div className="text-sm font-medium text-gray-600 mb-2">👩 Female</div>
-                          <div className="text-2xl font-bold text-gray-900">
-                            {formatConfidence(result.prediction.probabilities.Female)}
-                          </div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6, duration: 0.6 }}
+                      className="grid grid-cols-2 gap-6 max-w-md mx-auto"
+                    >
+                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                        <div className="text-sm font-medium text-gray-300 mb-2">👩 Female</div>
+                        <div className="text-2xl font-bold text-white">
+                          {(result.prediction.probabilities.Female * 100).toFixed(1)}%
                         </div>
-                        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-white/30">
-                          <div className="text-sm font-medium text-gray-600 mb-2">👨 Male</div>
-                          <div className="text-2xl font-bold text-gray-900">
-                            {formatConfidence(result.prediction.probabilities.Male)}
-                          </div>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                        <div className="text-sm font-medium text-gray-300 mb-2">👨 Male</div>
+                        <div className="text-2xl font-bold text-white">
+                          {(result.prediction.probabilities.Male * 100).toFixed(1)}%
                         </div>
-                      </motion.div>
-                    </div>
-                  ) : (
-                    <div className="text-center space-y-4">
-                      <XCircle className="w-16 h-16 text-red-500 mx-auto" />
-                      <h3 className="text-2xl font-semibold text-red-800">Analysis Failed</h3>
-                      <p className="text-red-600 text-lg">{result.error}</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                      </div>
+                    </motion.div>
+                  </div>
+                ) : (
+                  <div className="text-center space-y-4">
+                    <XCircle className="w-16 h-16 text-red-400 mx-auto" />
+                    <h3 className="text-2xl font-semibold text-red-300">Analysis Failed</h3>
+                    <p className="text-red-400 text-lg">{result.error}</p>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
