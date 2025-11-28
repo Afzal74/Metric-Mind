@@ -9,11 +9,11 @@ import { Badge } from '@/components/ui/badge'
 import { RealObjMandible } from './real-obj-mandible'
 import { 
   Eye, RotateCcw, Play, Pause, MousePointer, Settings, Camera,
-  Zap, Info, Target, Maximize2, Activity, Scan, Monitor, Loader2
+  Zap, Info, Target, Maximize2, Activity, Scan, Monitor, Loader2, ZoomIn, ZoomOut
 } from 'lucide-react'
 
 // Medical-style orbit controls
-function MedicalOrbitControls({ autoRotate = false }: { autoRotate?: boolean }) {
+function MedicalOrbitControls({ autoRotate = false, cameraDistance = 5.5 }: { autoRotate?: boolean, cameraDistance?: number }) {
   const { camera, gl } = useThree()
   const [isDragging, setIsDragging] = useState(false)
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 })
@@ -24,11 +24,10 @@ function MedicalOrbitControls({ autoRotate = false }: { autoRotate?: boolean }) 
       setRotation(prev => ({ ...prev, y: prev.y + 0.003 }))
     }
     
-    // Apply rotation to camera
-    const radius = camera.position.length()
-    camera.position.x = Math.cos(rotation.y) * Math.cos(rotation.x) * radius
-    camera.position.y = Math.sin(rotation.x) * radius
-    camera.position.z = Math.sin(rotation.y) * Math.cos(rotation.x) * radius
+    // Apply rotation to camera with dynamic distance
+    camera.position.x = Math.cos(rotation.y) * Math.cos(rotation.x) * cameraDistance
+    camera.position.y = Math.sin(rotation.x) * cameraDistance
+    camera.position.z = Math.sin(rotation.y) * Math.cos(rotation.x) * cameraDistance
     camera.lookAt(0, 0, 0)
   })
 
@@ -214,6 +213,7 @@ export function ObjMedicalViewer({
   const [isAnimating, setIsAnimating] = useState(false)
   const [autoRotate, setAutoRotate] = useState(true)
   const [modelLoaded, setModelLoaded] = useState(false)
+  const [cameraDistance, setCameraDistance] = useState(5.5)
 
   const currentFeature = MEDICAL_FEATURES.find(f => f.id === selectedFeature)
 
@@ -248,6 +248,15 @@ export function ObjMedicalViewer({
   const resetView = () => {
     setSelectedFeature(null)
     setAutoRotate(true)
+    setCameraDistance(5.5)
+  }
+
+  const handleZoomIn = () => {
+    setCameraDistance(prev => Math.max(prev - 0.8, 2.5))
+  }
+
+  const handleZoomOut = () => {
+    setCameraDistance(prev => Math.min(prev + 0.8, 18))
   }
 
   const getGenderAnalysis = () => {
@@ -353,6 +362,26 @@ export function ObjMedicalViewer({
                 Model Controls
               </h3>
               <div className="space-y-2">
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleZoomIn}
+                    className="flex-1"
+                  >
+                    <ZoomIn className="w-4 h-4 mr-2" />
+                    Zoom In
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleZoomOut}
+                    className="flex-1"
+                  >
+                    <ZoomOut className="w-4 h-4 mr-2" />
+                    Zoom Out
+                  </Button>
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
@@ -428,7 +457,7 @@ export function ObjMedicalViewer({
           {/* Real 3D Model Canvas */}
           <div className="relative w-full h-[750px] bg-gradient-to-b from-gray-900 to-black rounded-xl overflow-hidden border-2 border-orange-500/30 shadow-2xl">
             <Canvas
-              camera={{ position: [6, 2, 4], fov: 40 }}
+              camera={{ position: [cameraDistance, 2, 4], fov: 50 }}
               style={{ 
                 background: 'radial-gradient(ellipse at center, #0a0a0a 0%, #000000 70%, #1a0a00 100%)'
               }}
@@ -451,7 +480,7 @@ export function ObjMedicalViewer({
               />
 
               {/* Medical Controls */}
-              <MedicalOrbitControls autoRotate={autoRotate} />
+              <MedicalOrbitControls autoRotate={autoRotate} cameraDistance={cameraDistance} />
 
               {/* Real OBJ Mandible Model */}
               <Suspense fallback={<ModelLoader />}>
@@ -496,6 +525,26 @@ export function ObjMedicalViewer({
                   Auto rotation active
                 </Badge>
               )}
+            </div>
+
+            {/* Zoom Controls Overlay */}
+            <div className="absolute top-4 right-4 flex flex-col gap-2">
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleZoomIn}
+                className="bg-black/90 hover:bg-orange-600/90 text-orange-400 hover:text-white border border-orange-500/30"
+              >
+                <ZoomIn className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleZoomOut}
+                className="bg-black/90 hover:bg-orange-600/90 text-orange-400 hover:text-white border border-orange-500/30"
+              >
+                <ZoomOut className="w-5 h-5" />
+              </Button>
             </div>
 
             {/* Medical Morph Progress */}

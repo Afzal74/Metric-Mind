@@ -38,8 +38,8 @@ export function RealObjMandible({ morphFactor, selectedFeature }: RealObjMandibl
           (object) => {
             console.log('OBJ model loaded successfully:', object)
             
-            // Scale factors based on sexual dimorphism
-            const baseScale = 0.1 + morphFactor * 0.02 // Scale down the model
+            // Scale factors based on sexual dimorphism - INCREASED SIZE
+            const baseScale = 0.4 + morphFactor * 0.08 // Even larger base scale
             const widthScale = 1 + morphFactor * 0.28
             const heightScale = 1 + morphFactor * 0.15
             
