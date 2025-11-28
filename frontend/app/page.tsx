@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Brain, Activity, Users, Target, Loader2, CheckCircle, XCircle, 
   Microscope, Shield, Award, Database, FlaskConical, Stethoscope,
-  TrendingUp, Clock, AlertCircle, Sparkles, BookOpen, ChevronDown, ChevronUp
+  TrendingUp, Clock, AlertCircle, Sparkles, BookOpen, ChevronDown, ChevronUp, Eye
 } from 'lucide-react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
@@ -200,6 +200,20 @@ export default function Home() {
                 <Award className="w-4 h-4 mr-2" />
                 VTU CSE Project 2024
               </Badge>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, duration: 0.6 }}
+              className="mb-8"
+            >
+              <a href="/viewer">
+                <Button size="lg" className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-8 py-3 text-lg">
+                  <Eye className="w-5 h-5 mr-2" />
+                  Explore Real 3D Model
+                </Button>
+              </a>
             </motion.div>
           </div>
         </div>

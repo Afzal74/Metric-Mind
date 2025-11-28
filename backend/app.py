@@ -21,8 +21,19 @@ try:
     else:
         print(f"🔑 Found Gemini API key: {api_key[:10]}...")
         genai.configure(api_key=api_key)
-        gemini_model = genai.GenerativeModel('gemini-2.5-flash')  # Using Gemini 2.5 Flash
-        print("✅ Gemini AI configured successfully!")
+        # Try different model names for Gemini 2.5 Flash
+        try:
+            gemini_model = genai.GenerativeModel('gemini-2.5-flash')
+            print("✅ Gemini 2.5 Flash configured successfully!")
+        except Exception as model_error:
+            print(f"⚠️ Gemini 2.5 Flash not available, trying alternatives: {model_error}")
+            try:
+                gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+                print("✅ Gemini 1.5 Flash configured successfully!")
+            except Exception as fallback_error:
+                print(f"⚠️ Fallback failed: {fallback_error}")
+                gemini_model = genai.GenerativeModel('gemini-pro')
+                print("✅ Gemini Pro configured successfully!")
 except Exception as e:
     print(f"⚠️ Gemini AI configuration error: {e}")
     gemini_model = None
