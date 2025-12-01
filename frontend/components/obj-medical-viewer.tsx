@@ -12,15 +12,29 @@ import {
   Zap, Info, Target, Maximize2, Activity, Scan, Monitor, Loader2, ZoomIn, ZoomOut
 } from 'lucide-react'
 
-// Medical-style orbit controls
-function MedicalOrbitControls({ autoRotate = false, cameraDistance = 5.5 }: { autoRotate?: boolean, cameraDistance?: number }) {
+// Medical-style orbit controls with smooth camera transitions
+function MedicalOrbitControls({ 
+  autoRotate = false, 
+  cameraDistance = 5.5,
+  targetRotation = null
+}: { 
+  autoRotate?: boolean
+  cameraDistance?: number
+  targetRotation?: { x: number, y: number } | null
+}) {
   const { camera, gl } = useThree()
   const [isDragging, setIsDragging] = useState(false)
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 })
   const [rotation, setRotation] = useState({ x: -0.2, y: 0.3 })
 
   useFrame(() => {
-    if (autoRotate && !isDragging) {
+    // Smoothly transition to target rotation when feature is selected
+    if (targetRotation) {
+      setRotation(prev => ({
+        x: prev.x + (targetRotation.x - prev.x) * 0.1,
+        y: prev.y + (targetRotation.y - prev.y) * 0.1
+      }))
+    } else if (autoRotate && !isDragging) {
       setRotation(prev => ({ ...prev, y: prev.y + 0.003 }))
     }
     
@@ -134,57 +148,127 @@ function MedicalMeasurementLine({
   return <group>{lineElements}</group>
 }
 
-// Anatomical features with medical precision
+// All 15 Anatomical features - NO measurement lines, just camera positions
 const MEDICAL_FEATURES = [
   {
     id: 'M1',
-    name: 'Mandibular Length (M1)',
+    name: 'Length (M1)',
     description: 'Maximum anteroposterior dimension from gonion to gnathion',
-    measurementLine: {
-      points: [[-2.4, -1.3, 0], [0, -2.1, 0.6]],
-      color: '#00ff88'
-    },
+    color: '#00ff88',
+    cameraPosition: { distance: 3.5, rotation: { x: -0.3, y: 0.5 } },
     medicalNote: 'Critical for bite analysis and facial reconstruction'
   },
   {
     id: 'M2',
     name: 'Bicondylar Breadth (M2)',
     description: 'Maximum transverse width between lateral condylar surfaces',
-    measurementLine: {
-      points: [[-2.7, 2.0, 0], [2.7, 2.0, 0]],
-      color: '#00ccff'
-    },
+    color: '#00ccff',
+    cameraPosition: { distance: 4, rotation: { x: 0.3, y: 0 } },
     medicalNote: 'Key indicator of mandibular size and TMJ function'
+  },
+  {
+    id: 'M3',
+    name: 'Mandibular Index (M3)',
+    description: 'Ratio of mandibular height to length',
+    color: '#ff00ff',
+    cameraPosition: { distance: 3.5, rotation: { x: 0, y: 1.57 } },
+    medicalNote: 'Indicates mandibular proportions and robusticity'
+  },
+  {
+    id: 'M4',
+    name: 'Bigonial Breadth (M4)',
+    description: 'Maximum transverse width between gonial angles',
+    color: '#ffff00',
+    cameraPosition: { distance: 4, rotation: { x: -0.6, y: 0 } },
+    medicalNote: 'Sexually dimorphic - wider in males'
+  },
+  {
+    id: 'M5',
+    name: 'Upper Ramus Breadth (M5)',
+    description: 'Minimum breadth of upper ramus',
+    color: '#00ffff',
+    cameraPosition: { distance: 3, rotation: { x: 0.1, y: 1.57 } },
+    medicalNote: 'Indicates ramus robusticity'
+  },
+  {
+    id: 'M6',
+    name: 'Lower Ramus Breadth (M6)',
+    description: 'Minimum breadth of lower ramus',
+    color: '#ff6699',
+    cameraPosition: { distance: 3, rotation: { x: -0.1, y: 1.57 } },
+    medicalNote: 'Related to masticatory muscle attachment'
+  },
+  {
+    id: 'M7',
+    name: 'Condylar Ramus Height (M7)',
+    description: 'Vertical distance from condylar head to gonial angle',
+    color: '#ff6600',
+    cameraPosition: { distance: 3.5, rotation: { x: 0, y: 1.57 } },
+    medicalNote: 'Correlates with masticatory muscle development'
+  },
+  {
+    id: 'M8',
+    name: 'Coronoid Ramus Height (M8)',
+    description: 'Vertical distance from coronoid tip to gonial angle',
+    color: '#9966ff',
+    cameraPosition: { distance: 3.5, rotation: { x: 0.1, y: 1.4 } },
+    medicalNote: 'Indicates temporalis muscle attachment area'
   },
   {
     id: 'M9',
     name: 'Gonial Angle (M9)',
     description: 'Angle between posterior ramus border and mandibular base',
-    measurementLine: {
-      points: [[-2.4, 1.5, 0], [-2.4, -1.3, 0], [0, -1.4, 0]],
-      color: '#ffaa00'
-    },
-    medicalNote: 'Highly sexually dimorphic - males typically have more acute angles'
+    color: '#ffaa00',
+    cameraPosition: { distance: 3, rotation: { x: -0.2, y: 1.57 } },
+    medicalNote: 'Highly sexually dimorphic - males have more acute angles'
   },
   {
-    id: 'M7',
-    name: 'Ramus Height (M7)',
-    description: 'Vertical distance from condylar head to gonial angle',
-    measurementLine: {
-      points: [[-2.7, 2.0, 0], [-2.4, -1.3, 0]],
-      color: '#ff6600'
-    },
-    medicalNote: 'Correlates with masticatory muscle development'
+    id: 'M10',
+    name: 'Coronoid Length (M10)',
+    description: 'Length of coronoid process',
+    color: '#66ff99',
+    cameraPosition: { distance: 2.8, rotation: { x: 0.2, y: 1.4 } },
+    medicalNote: 'Related to temporalis muscle leverage'
+  },
+  {
+    id: 'M11',
+    name: 'Coronoid Breadth (M11)',
+    description: 'Breadth of coronoid process',
+    color: '#ff99cc',
+    cameraPosition: { distance: 2.8, rotation: { x: 0.3, y: 1.2 } },
+    medicalNote: 'Indicates muscle attachment surface area'
   },
   {
     id: 'M12',
-    name: 'Coronoid Distance (M12)',
+    name: 'Condyle-Condyle Distance (M12)',
+    description: 'Transverse distance between condylar centers',
+    color: '#cc00ff',
+    cameraPosition: { distance: 4, rotation: { x: 0.4, y: 0 } },
+    medicalNote: 'Related to TMJ spacing and function'
+  },
+  {
+    id: 'M13',
+    name: 'Inter-Coronoid Distance (M13)',
     description: 'Transverse distance between coronoid process tips',
-    measurementLine: {
-      points: [[-1.9, 1.2, 0], [1.9, 1.2, 0]],
-      color: '#cc00ff'
-    },
-    medicalNote: 'Related to temporalis muscle attachment area'
+    color: '#ff3366',
+    cameraPosition: { distance: 3.5, rotation: { x: 0.3, y: 0 } },
+    medicalNote: 'Indicates mandibular arch width'
+  },
+  {
+    id: 'M14',
+    name: 'Coronoid-Foramen Distance (M14)',
+    description: 'Distance from coronoid tip to mental foramen',
+    color: '#33ccff',
+    cameraPosition: { distance: 3.5, rotation: { x: -0.2, y: 0.8 } },
+    medicalNote: 'Anatomical landmark relationship'
+  },
+  {
+    id: 'M15',
+    name: 'Bimental Breadth (M15)',
+    description: 'Breadth between mental foramina',
+    color: '#ffcc00',
+    cameraPosition: { distance: 3, rotation: { x: -0.5, y: 0 } },
+    medicalNote: 'Indicates anterior mandibular width'
   }
 ]
 
@@ -338,16 +422,19 @@ export function ObjMedicalViewer({
                     key={feature.id}
                     variant={selectedFeature === feature.id ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setSelectedFeature(feature.id)}
+                    onClick={() => {
+                      setSelectedFeature(feature.id)
+                      setAutoRotate(false) // Turn off auto-rotate when feature is selected
+                    }}
                     className="w-full justify-start text-left transition-all duration-200 hover:scale-105"
                     style={{
-                      backgroundColor: selectedFeature === feature.id ? feature.measurementLine.color + '20' : undefined,
-                      borderColor: selectedFeature === feature.id ? feature.measurementLine.color : undefined
+                      backgroundColor: selectedFeature === feature.id ? feature.color + '20' : undefined,
+                      borderColor: selectedFeature === feature.id ? feature.color : undefined
                     }}
                   >
                     <div 
                       className="w-3 h-3 rounded-full mr-2" 
-                      style={{ backgroundColor: feature.measurementLine.color }}
+                      style={{ backgroundColor: feature.color }}
                     />
                     {feature.name}
                   </Button>
@@ -428,7 +515,7 @@ export function ObjMedicalViewer({
                   <Badge 
                     variant="default" 
                     className="w-full justify-center text-black font-semibold"
-                    style={{ backgroundColor: currentFeature.measurementLine.color }}
+                    style={{ backgroundColor: currentFeature.color }}
                   >
                     {currentFeature.name}
                   </Badge>
@@ -480,7 +567,11 @@ export function ObjMedicalViewer({
               />
 
               {/* Medical Controls */}
-              <MedicalOrbitControls autoRotate={autoRotate} cameraDistance={cameraDistance} />
+              <MedicalOrbitControls 
+                autoRotate={autoRotate && !selectedFeature} 
+                cameraDistance={selectedFeature && currentFeature ? currentFeature.cameraPosition.distance : cameraDistance}
+                targetRotation={selectedFeature && currentFeature ? currentFeature.cameraPosition.rotation : null}
+              />
 
               {/* Real OBJ Mandible Model */}
               <Suspense fallback={<ModelLoader />}>
@@ -490,17 +581,10 @@ export function ObjMedicalViewer({
                 />
               </Suspense>
 
-              {/* Medical Measurement Lines */}
-              {currentFeature && (
-                <MedicalMeasurementLine
-                  points={currentFeature.measurementLine.points as [number, number, number][]}
-                  color={currentFeature.measurementLine.color}
-                  isVisible={true}
-                />
+              {/* Medical grid - only show when no feature is selected */}
+              {!selectedFeature && (
+                <gridHelper args={[15, 15, '#333333', '#1a1a1a']} position={[0, -4, 0]} />
               )}
-
-              {/* Medical grid */}
-              <gridHelper args={[15, 15, '#333333', '#1a1a1a']} position={[0, -4, 0]} />
             </Canvas>
 
             {/* Medical Overlay Interface */}
@@ -513,13 +597,23 @@ export function ObjMedicalViewer({
                 <Camera className="w-3 h-3 mr-1" />
                 Drag • Scroll • Click
               </Badge>
+              {selectedFeature && currentFeature && (
+                <Badge 
+                  variant="default" 
+                  className="bg-black/90 text-white backdrop-blur-sm animate-pulse"
+                  style={{ borderColor: currentFeature.color }}
+                >
+                  <Target className="w-3 h-3 mr-1" />
+                  Viewing: {currentFeature.name}
+                </Badge>
+              )}
               {isAnimating && (
                 <Badge variant="default" className="bg-orange-600/90 text-white animate-pulse backdrop-blur-sm">
                   <Settings className="w-3 h-3 mr-1 animate-spin" />
                   Morphological analysis...
                 </Badge>
               )}
-              {autoRotate && (
+              {autoRotate && !selectedFeature && (
                 <Badge variant="outline" className="bg-green-900/30 text-green-400 border-green-500/30 backdrop-blur-sm">
                   <Maximize2 className="w-3 h-3 mr-1" />
                   Auto rotation active
