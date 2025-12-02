@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
   Eye, RotateCcw, Play, Pause,
-  MousePointer, Settings, Camera
+  MousePointer, Settings, Camera, ZoomIn, ZoomOut
 } from 'lucide-react'
 
 // Basic mandible component without drei dependencies
@@ -21,7 +21,8 @@ function BasicMandible({ morphFactor = 0 }: { morphFactor: number }) {
     }
   })
 
-  const scale = 1 + morphFactor * 0.2
+  const baseScale = 5 // Much larger base scale for bigger model
+  const scale = baseScale * (1 + morphFactor * 0.2)
   const color = morphFactor > 0.5 ? '#f0e6d2' : '#f4e4bc'
 
   return (
@@ -70,10 +71,14 @@ function BasicMandible({ morphFactor = 0 }: { morphFactor: number }) {
 }
 
 // Basic camera controls without OrbitControls
-function BasicControls() {
+function BasicControls({ cameraDistance }: { cameraDistance: number }) {
   const { camera, gl } = useThree()
   const [isDragging, setIsDragging] = useState(false)
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    camera.position.z = cameraDistance
+  }, [camera, cameraDistance])
 
   useEffect(() => {
     const handleMouseDown = (event: MouseEvent) => {
@@ -122,6 +127,8 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
   const [morphFactor, setMorphFactor] = useState(0)
   const [showVariation, setShowVariation] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [cameraDistance, setCameraDistance] = useState(12)
+  const canvasRef = useRef<any>(null)
 
   const handleMorphToggle = () => {
     if (!isAnimating) {
@@ -152,7 +159,16 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
   }
 
   const resetView = () => {
+    setCameraDistance(12)
     window.location.reload() // Simple reset
+  }
+
+  const handleZoomIn = () => {
+    setCameraDistance(prev => Math.max(prev - 2, 4))
+  }
+
+  const handleZoomOut = () => {
+    setCameraDistance(prev => Math.min(prev + 2, 30))
   }
 
   return (
@@ -174,6 +190,26 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
             <div className="space-y-3">
               <h3 className="text-lg font-semibold text-gray-200">View Controls</h3>
               <div className="space-y-2">
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleZoomIn}
+                    className="flex-1"
+                  >
+                    <ZoomIn className="w-4 h-4 mr-2" />
+                    Zoom In
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleZoomOut}
+                    className="flex-1"
+                  >
+                    <ZoomOut className="w-4 h-4 mr-2" />
+                    Zoom Out
+                  </Button>
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
@@ -205,7 +241,7 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
               <h3 className="text-lg font-semibold text-gray-200">Instructions</h3>
               <div className="space-y-2 text-sm text-gray-400">
                 <p>• Drag to rotate the model</p>
-                <p>• Scroll to zoom in/out</p>
+                <p>• Scroll or use buttons to zoom in/out</p>
                 <p>• Toggle variation to see gender differences</p>
                 <p>• Use reset to return to original view</p>
               </div>
@@ -215,7 +251,8 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
           {/* 3D Canvas */}
           <div className="relative w-full h-[600px] bg-gradient-to-b from-gray-900 to-gray-800 rounded-xl overflow-hidden border border-gray-700">
             <Canvas
-              camera={{ position: [0, 0, 5], fov: 50 }}
+              ref={canvasRef}
+              camera={{ position: [0, 0, cameraDistance], fov: 50 }}
               style={{ background: 'linear-gradient(to bottom, #1a1a2e, #16213e)' }}
             >
               {/* Lighting */}
@@ -224,7 +261,7 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
               <pointLight position={[-10, -10, -5]} intensity={0.5} />
 
               {/* Basic Controls */}
-              <BasicControls />
+              <BasicControls cameraDistance={cameraDistance} />
 
               {/* Mandible Model */}
               <BasicMandible morphFactor={morphFactor} />
@@ -245,6 +282,26 @@ export function Basic3DViewer({ className = "" }: { className?: string }) {
                   Morphing geometry...
                 </Badge>
               )}
+            </div>
+
+            {/* Zoom Controls Overlay */}
+            <div className="absolute top-4 right-4 flex flex-col gap-2">
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleZoomIn}
+                className="bg-black/70 hover:bg-black/90 text-white"
+              >
+                <ZoomIn className="w-5 h-5" />
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon"
+                onClick={handleZoomOut}
+                className="bg-black/70 hover:bg-black/90 text-white"
+              >
+                <ZoomOut className="w-5 h-5" />
+              </Button>
             </div>
 
             {/* Morph Progress */}
