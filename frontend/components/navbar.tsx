@@ -2,12 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Microscope, Brain, Eye, Home, Menu, X, 
-  Activity, Database, Target, Users 
-} from 'lucide-react'
+import { Brain, Eye, Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
@@ -32,22 +30,25 @@ export function Navbar() {
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-800/50 bg-gray-900/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 w-full border-b border-amber-500/20 bg-black/70 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <Microscope className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
-                <Activity className="w-2 h-2 text-white" />
-              </div>
+            <div className="relative w-10 h-10">
+              <Image 
+                src="/mandible.png" 
+                alt="MetricMind Logo" 
+                width={40} 
+                height={40}
+                className="object-contain group-hover:scale-110 transition-transform"
+              />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-100 group-hover:text-white transition-colors">
+              <h1 className="text-xl font-bold text-gray-100 group-hover:text-white transition-colors ghibli-title">
                 MetricMind
               </h1>
-              <p className="text-xs text-gray-400 -mt-1">Forensic AI</p>
+              <p className="text-xs text-gray-400 -mt-1 ghibli-text">Forensic AI</p>
             </div>
           </Link>
 
@@ -61,22 +62,14 @@ export function Navbar() {
                     variant={isActive ? "default" : "ghost"}
                     size="sm"
                     className={cn(
-                      "relative px-4 py-2 transition-all duration-200",
+                      "relative px-4 py-2 transition-all duration-200 rounded-full ghibli-text",
                       isActive 
-                        ? "bg-blue-600 hover:bg-blue-700 text-white" 
-                        : "text-gray-300 hover:text-white hover:bg-gray-800"
+                        ? "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white" 
+                        : "text-gray-300 hover:text-white hover:bg-white/10"
                     )}
                   >
                     <item.icon className="w-4 h-4 mr-2" />
                     {item.name}
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeTab"
-                        className="absolute inset-0 bg-blue-600 rounded-md -z-10"
-                        initial={false}
-                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      />
-                    )}
                   </Button>
                 </Link>
               )
@@ -85,9 +78,9 @@ export function Navbar() {
 
           {/* Status Badge */}
           <div className="hidden md:flex items-center space-x-3">
-            <Badge variant="secondary" className="bg-green-900/30 text-green-400 border-green-500/30">
+            <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 rounded-full px-4 py-1.5">
               <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
-              System Online
+              <span className="ghibli-text">System Online</span>
             </Badge>
           </div>
 
@@ -117,7 +110,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-gray-800/50 bg-gray-900/95 backdrop-blur-xl"
+            className="md:hidden border-t border-amber-500/20 bg-black/90 backdrop-blur-xl"
           >
             <div className="px-4 py-4 space-y-2">
               {navigation.map((item) => {
@@ -126,15 +119,15 @@ export function Navbar() {
                   <Link key={item.name} href={item.href} onClick={() => setIsOpen(false)}>
                     <div
                       className={cn(
-                        "flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
+                        "flex items-center space-x-3 px-4 py-3 rounded-2xl transition-all duration-200",
                         isActive 
-                          ? "bg-blue-600 text-white" 
-                          : "text-gray-300 hover:text-white hover:bg-gray-800"
+                          ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white" 
+                          : "text-gray-300 hover:text-white hover:bg-white/10"
                       )}
                     >
                       <item.icon className="w-5 h-5" />
                       <div>
-                        <p className="font-medium">{item.name}</p>
+                        <p className="font-medium ghibli-text">{item.name}</p>
                         <p className="text-xs opacity-70">{item.description}</p>
                       </div>
                     </div>
@@ -143,10 +136,10 @@ export function Navbar() {
               })}
               
               {/* Mobile Status */}
-              <div className="pt-4 border-t border-gray-800/50">
+              <div className="pt-4 border-t border-amber-500/20">
                 <div className="flex items-center justify-between px-4">
-                  <span className="text-sm text-gray-400">System Status</span>
-                  <Badge variant="secondary" className="bg-green-900/30 text-green-400 border-green-500/30">
+                  <span className="text-sm text-gray-400 ghibli-text">System Status</span>
+                  <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 rounded-full">
                     <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
                     Online
                   </Badge>

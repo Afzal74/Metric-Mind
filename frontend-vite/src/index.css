@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  html {
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-black text-gray-100;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+@layer components {
+  .gradient-bg {
+    background: #000000;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .gradient-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 15% 25%,
+        rgba(59, 130, 246, 0.08) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 85% 75%,
+        rgba(147, 51, 234, 0.06) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(168, 85, 247, 0.04) 0%,
+        transparent 60%
+      );
+    pointer-events: none;
+  }
+
+  .glass-card {
+    @apply bg-gray-900/20 backdrop-blur-xl border border-gray-800/40 shadow-2xl;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(15, 15, 15, 0.4) 100%
+    );
+  }
+
+  .dashboard-card {
+    @apply bg-black/40 backdrop-blur-xl border border-gray-800/30 rounded-2xl shadow-2xl;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(20, 20, 20, 0.6) 100%
+    );
+  }
+
+  .orbitron-font {
+    font-family: "Orbitron", monospace;
+  }
+
+  .space-grotesk-font {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  .jetbrains-font {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .metric-gradient {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+  }
+
+  .stat-card {
+    @apply bg-black/30 backdrop-blur-xl border border-gray-800/40 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:border-blue-500/30 hover:bg-black/50;
+  }
+
+  .result-card-success {
+    @apply bg-gradient-to-br from-emerald-900/30 to-green-900/30 border border-emerald-500/30 backdrop-blur-xl;
+  }
+
+  .result-card-error {
+    @apply bg-gradient-to-br from-red-900/30 to-rose-900/30 border border-red-500/30 backdrop-blur-xl;
+  }
+
+  .floating-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from { 
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2);
+    }
+    to { 
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), 0 0 60px rgba(139, 92, 246, 0.3);
+    }
+  }
+
+  .neon-glow {
+    box-shadow: 
+      0 0 5px rgba(139, 92, 246, 0.5), 
+      0 0 20px rgba(139, 92, 246, 0.3), 
+      0 0 35px rgba(139, 92, 246, 0.1),
+      inset 0 0 20px rgba(139, 92, 246, 0.1);
+  }
+
+  .dark-input {
+    @apply bg-black/30 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20 backdrop-blur-xl;
+  }
+
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .holographic-border {
+    position: relative;
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.7)) padding-box,
+                linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9) border-box;
+  }
+
+  .data-visualization {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.8) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+}
