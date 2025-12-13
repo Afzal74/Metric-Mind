@@ -2,25 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+/* Ghibli-style fonts - Rounded, whimsical feel */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   html {
-    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-family: "Nunito", "Quicksand", system-ui, sans-serif;
   }
 
   body {
-    @apply bg-black text-gray-100;
+    @apply text-gray-100;
     overflow-x: hidden;
     overflow-y: auto;
+    background: #0a0a0a;
+    min-height: 100vh;
   }
 }
 
 @layer components {
+  /* Ghibli Night Sky - Black base with magical touches */
   .gradient-bg {
-    background: #000000;
     position: relative;
     min-height: 100vh;
+    background: linear-gradient(180deg, 
+      #0a0a0a 0%,
+      #0f0f1a 20%,
+      #141428 40%,
+      #1a1a2e 60%,
+      #0f0f1a 80%,
+      #0a0a0a 100%
+    );
   }
 
   .gradient-bg::before {
@@ -30,175 +41,292 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(
-        circle at 15% 25%,
-        rgba(59, 130, 246, 0.08) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 85% 75%,
-        rgba(147, 51, 234, 0.06) 0%,
-        transparent 40%
-      ),
-      radial-gradient(
-        circle at 50% 50%,
-        rgba(168, 85, 247, 0.04) 0%,
-        transparent 60%
-      );
+    background: 
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(120, 200, 180, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 15% 50%, rgba(255, 183, 77, 0.05) 0%, transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(180, 140, 200, 0.05) 0%, transparent 25%),
+      radial-gradient(circle at 50% 80%, rgba(100, 180, 255, 0.04) 0%, transparent 30%);
     pointer-events: none;
   }
 
+  /* Floating particles/stars effect */
+  .gradient-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 80% 50%, rgba(255, 220, 150, 0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 90% 90%, rgba(200, 180, 255, 0.3) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Ghibli Glass Card - Dark with warm glow */
   .glass-card {
-    @apply bg-gray-900/20 backdrop-blur-xl border border-gray-800/40 shadow-2xl;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.6) 0%,
-      rgba(15, 15, 15, 0.4) 100%
+    @apply backdrop-blur-xl rounded-3xl;
+    background: linear-gradient(135deg, 
+      rgba(30, 30, 40, 0.9) 0%, 
+      rgba(20, 20, 30, 0.95) 100%
     );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+      0 1px 0 rgba(255, 255, 255, 0.1) inset;
   }
 
   .dashboard-card {
-    @apply bg-black/40 backdrop-blur-xl border border-gray-800/30 rounded-2xl shadow-2xl;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(20, 20, 20, 0.6) 100%
+    @apply backdrop-blur-xl rounded-3xl shadow-lg;
+    background: linear-gradient(135deg, 
+      rgba(25, 25, 35, 0.95) 0%, 
+      rgba(15, 15, 25, 0.98) 100%
     );
+    border: 1px solid rgba(255, 200, 150, 0.1);
+  }
+
+  /* Ghibli Fonts */
+  .ghibli-title {
+    font-family: "Comfortaa", "Quicksand", cursive;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .ghibli-text {
+    font-family: "Nunito", sans-serif;
+  }
+
+  .quicksand-font {
+    font-family: "Quicksand", sans-serif;
   }
 
   .orbitron-font {
-    font-family: "Orbitron", monospace;
+    font-family: "Comfortaa", "Quicksand", cursive;
+    font-weight: 700;
   }
 
   .space-grotesk-font {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Nunito", sans-serif;
   }
 
-  .jetbrains-font {
-    font-family: "JetBrains Mono", monospace;
-  }
-
-  .metric-gradient {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
-  }
-
+  /* Stat Cards - Warm dark theme */
   .stat-card {
-    @apply bg-black/30 backdrop-blur-xl border border-gray-800/40 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:border-blue-500/30 hover:bg-black/50;
+    @apply backdrop-blur-xl rounded-2xl p-6 transition-all duration-500;
+    background: linear-gradient(135deg, 
+      rgba(35, 35, 45, 0.8) 0%, 
+      rgba(25, 25, 35, 0.9) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
+  .stat-card:hover {
+    border-color: rgba(255, 200, 150, 0.2);
+    box-shadow: 
+      0 8px 30px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(255, 200, 150, 0.05);
+    transform: translateY(-4px);
+  }
+
+  /* Success/Error Cards */
   .result-card-success {
-    @apply bg-gradient-to-br from-emerald-900/30 to-green-900/30 border border-emerald-500/30 backdrop-blur-xl;
+    @apply backdrop-blur-xl rounded-3xl;
+    background: linear-gradient(135deg, 
+      rgba(20, 60, 40, 0.9) 0%, 
+      rgba(15, 45, 30, 0.95) 100%
+    );
+    border: 1px solid rgba(100, 200, 150, 0.3);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(100, 200, 150, 0.1);
   }
 
   .result-card-error {
-    @apply bg-gradient-to-br from-red-900/30 to-rose-900/30 border border-red-500/30 backdrop-blur-xl;
+    @apply backdrop-blur-xl rounded-3xl;
+    background: linear-gradient(135deg, 
+      rgba(60, 20, 30, 0.9) 0%, 
+      rgba(45, 15, 25, 0.95) 100%
+    );
+    border: 1px solid rgba(255, 100, 120, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
+  /* Whimsical Floating Animation */
   .floating-animation {
-    animation: float 6s ease-in-out infinite;
+    animation: ghibli-float 4s ease-in-out infinite;
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(2deg); }
+  @keyframes ghibli-float {
+    0%, 100% { 
+      transform: translateY(0px) rotate(-2deg); 
+    }
+    50% { 
+      transform: translateY(-12px) rotate(2deg); 
+    }
   }
 
+  /* Gentle Glow Animation */
   .pulse-glow {
-    animation: pulse-glow 3s ease-in-out infinite alternate;
+    animation: ghibli-glow 3s ease-in-out infinite alternate;
   }
 
-  @keyframes pulse-glow {
+  @keyframes ghibli-glow {
     from { 
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(139, 92, 246, 0.2);
+      box-shadow: 0 0 15px rgba(255, 200, 150, 0.2), 0 0 30px rgba(255, 183, 77, 0.1);
     }
     to { 
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6), 0 0 60px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 0 25px rgba(255, 200, 150, 0.3), 0 0 50px rgba(255, 183, 77, 0.15);
     }
   }
 
-  .neon-glow {
+  /* Sparkle Animation */
+  .sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  /* Cloud drift animation */
+  .cloud-drift {
+    animation: drift 20s linear infinite;
+  }
+
+  @keyframes drift {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100vw); }
+  }
+
+  /* Ghibli Input Style - Dark with warm accents */
+  .ghibli-input {
+    @apply w-full px-4 py-3 rounded-xl text-white transition-all duration-300;
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .ghibli-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .ghibli-input:focus {
+    outline: none;
+    border-color: rgba(255, 200, 150, 0.4);
     box-shadow: 
-      0 0 5px rgba(139, 92, 246, 0.5), 
-      0 0 20px rgba(139, 92, 246, 0.3), 
-      0 0 35px rgba(139, 92, 246, 0.1),
-      inset 0 0 20px rgba(139, 92, 246, 0.1);
+      inset 0 2px 4px rgba(0, 0, 0, 0.3),
+      0 0 0 3px rgba(255, 200, 150, 0.1);
+    transform: scale(1.01);
   }
 
-  .dark-input {
-    @apply bg-black/30 border-gray-700/50 text-gray-100 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20 backdrop-blur-xl;
+  /* Ghibli Buttons - Warm, inviting */
+  .ghibli-btn {
+    @apply px-6 py-3 text-white font-semibold rounded-full transition-all duration-300;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 
+      0 4px 15px rgba(245, 158, 11, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
-  .cyber-grid {
-    background-image: 
-      linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
+  .ghibli-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(245, 158, 11, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
-  .holographic-border {
-    position: relative;
-    border: 1px solid transparent;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.7)) padding-box,
-                linear-gradient(135deg, #8b5cf6, #7c3aed, #6d28d9) border-box;
+  .ghibli-btn-primary {
+    @apply px-6 py-3 text-white font-semibold rounded-full transition-all duration-300;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    box-shadow: 
+      0 4px 15px rgba(16, 185, 129, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
-  .data-visualization {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.8) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+  .ghibli-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(16, 185, 129, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
-  /* 3D Viewer Specific Styles */
+  /* Decorative Elements */
+  .leaf-decoration {
+    @apply text-emerald-500 opacity-60;
+    filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.3));
+  }
+
+  /* 3D Viewer Style */
   .viewer-canvas {
-    @apply rounded-xl overflow-hidden border border-gray-700 shadow-2xl;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    @apply rounded-3xl overflow-hidden shadow-2xl;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%);
+    border: 1px solid rgba(255, 200, 150, 0.15);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.5),
+      0 0 60px rgba(255, 200, 150, 0.05);
   }
 
   .landmark-tooltip {
-    @apply bg-black/80 text-white text-xs px-2 py-1 rounded backdrop-blur-sm border border-gray-600;
+    @apply text-white text-xs px-3 py-2 rounded-xl backdrop-blur-sm shadow-lg;
+    background: rgba(20, 20, 30, 0.9);
+    border: 1px solid rgba(255, 200, 150, 0.2);
+    font-family: "Nunito", sans-serif;
   }
 
-  .measurement-line {
-    filter: drop-shadow(0 0 3px currentColor);
-  }
-
-  .morph-progress {
-    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500;
-    background-size: 200% 100%;
-    animation: gradient-shift 3s ease-in-out infinite;
-  }
-
-  @keyframes gradient-shift {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-
+  /* Feature highlight */
   .feature-highlight {
-    @apply ring-2 ring-blue-400 ring-opacity-50 bg-blue-900/20;
-    animation: feature-pulse 2s ease-in-out infinite;
+    @apply rounded-xl;
+    box-shadow: 0 0 0 3px rgba(255, 200, 150, 0.3);
+    animation: gentle-pulse 2s ease-in-out infinite;
   }
 
-  @keyframes feature-pulse {
+  @keyframes gentle-pulse {
     0%, 100% {
       transform: scale(1);
-      opacity: 1;
+      box-shadow: 0 0 0 3px rgba(255, 200, 150, 0.3);
     }
     50% {
-      transform: scale(1.05);
-      opacity: 0.8;
+      transform: scale(1.02);
+      box-shadow: 0 0 20px 4px rgba(255, 200, 150, 0.15);
     }
   }
 
+  /* Loading spinner */
   .loading-spinner {
     @apply animate-spin;
-    animation-duration: 1s;
+    animation-duration: 1.5s;
+    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
+  /* Soft overlay for viewer */
   .viewer-overlay {
     @apply absolute top-0 left-0 right-0 bottom-0 pointer-events-none;
-    background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.3) 100%);
+    background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%);
   }
+
+  /* Warm shadows */
+  .warm-shadow {
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      0 2px 4px -1px rgba(255, 200, 150, 0.05);
+  }
+
+  .warm-shadow-lg {
+    box-shadow: 
+      0 10px 15px -3px rgba(0, 0, 0, 0.4),
+      0 4px 6px -2px rgba(255, 200, 150, 0.05);
+  }
+
+  /* Ghibli accent colors for text */
+  .text-ghibli-gold { color: #fbbf24; }
+  .text-ghibli-rose { color: #fb7185; }
+  .text-ghibli-sky { color: #38bdf8; }
+  .text-ghibli-forest { color: #34d399; }
+  .text-ghibli-lavender { color: #c4b5fd; }
 }

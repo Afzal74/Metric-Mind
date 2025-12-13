@@ -15,9 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&family=Comfortaa:wght@300;400;500;600;700&display=swap" 
+          rel="stylesheet" 
+        />
       </head>
-      <body className="min-h-screen gradient-bg">
+      <body className="min-h-screen gradient-bg ghibli-text">
         <Navbar />
         {children}
       </body>
