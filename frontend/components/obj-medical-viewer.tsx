@@ -549,22 +549,48 @@ export function ObjMedicalViewer({
                 background: 'radial-gradient(ellipse at center, #0a0a0a 0%, #000000 70%, #1a0a00 100%)'
               }}
             >
-              {/* Medical imaging lighting */}
-              <ambientLight intensity={0.3} color="#ff8866" />
+              {/* Enhanced focused lighting for 3D model */}
+              <ambientLight intensity={0.5} color="#ffffff" />
+              
+              {/* Main key light - front top */}
               <directionalLight 
-                position={[8, 8, 4]} 
-                intensity={1.5} 
+                position={[5, 8, 5]} 
+                intensity={2.0} 
                 color="#ffffff"
                 castShadow
               />
-              <pointLight position={[-8, -8, -4]} intensity={0.8} color="#ff6644" />
-              <spotLight 
-                position={[0, 12, 0]} 
+              
+              {/* Fill light - front bottom to reduce shadows */}
+              <directionalLight 
+                position={[3, -3, 5]} 
                 intensity={1.2} 
-                angle={0.4} 
-                penumbra={0.6}
-                color="#ffaa88"
+                color="#ffddcc"
               />
+              
+              {/* Back light for rim lighting effect */}
+              <directionalLight 
+                position={[-5, 5, -5]} 
+                intensity={1.5} 
+                color="#ffeedd"
+              />
+              
+              {/* Focused spotlight on model center */}
+              <spotLight 
+                position={[0, 10, 0]} 
+                intensity={2.5} 
+                angle={0.6} 
+                penumbra={0.5}
+                color="#ffffff"
+                castShadow
+                target-position={[0, 0, 0]}
+              />
+              
+              {/* Side accent lights for depth */}
+              <pointLight position={[8, 2, 0]} intensity={1.0} color="#ffaa88" />
+              <pointLight position={[-8, 2, 0]} intensity={1.0} color="#ffaa88" />
+              
+              {/* Bottom fill light */}
+              <pointLight position={[0, -5, 0]} intensity={0.8} color="#ff9977" />
 
               {/* Medical Controls */}
               <MedicalOrbitControls 
