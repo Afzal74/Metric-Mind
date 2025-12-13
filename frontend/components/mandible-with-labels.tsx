@@ -56,6 +56,7 @@ interface MandibleWithLabelsProps {
   selectedFeature: string | null;
   measurements: number[];
   onFeatureSelect: (feature: string | null) => void;
+  predictedGender?: string;
 }
 
 function MandibleModel({
