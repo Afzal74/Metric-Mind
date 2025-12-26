@@ -70,9 +70,9 @@ function MedicalOrbitControls({
     }
 
     const handleWheel = (event: WheelEvent) => {
-      const factor = event.deltaY > 0 ? 1.08 : 0.92
+      const factor = event.deltaY > 0 ? 1.15 : 0.85
       const newDistance = camera.position.length() * factor
-      if (newDistance > 2 && newDistance < 15) {
+      if (newDistance > 1.5 && newDistance < 25) {
         camera.position.multiplyScalar(factor)
       }
     }
@@ -93,7 +93,7 @@ function MedicalOrbitControls({
   return null
 }
 
-// All 15 Anatomical features - NO measurement lines, just camera positions
+// All 15 Anatomical features with 3D marker positions (adjusted for actual model)
 const MEDICAL_FEATURES = [
   {
     id: 'M1',
@@ -101,6 +101,7 @@ const MEDICAL_FEATURES = [
     description: 'Maximum anteroposterior dimension from gonion to gnathion',
     color: '#00ff88',
     cameraPosition: { distance: 3.5, rotation: { x: -0.3, y: 0.5 } },
+    markerPosition: [0, -0.3, 0.15] as [number, number, number],
     medicalNote: 'Critical for bite analysis and facial reconstruction'
   },
   {
@@ -109,6 +110,7 @@ const MEDICAL_FEATURES = [
     description: 'Maximum transverse width between lateral condylar surfaces',
     color: '#00ccff',
     cameraPosition: { distance: 4, rotation: { x: 0.3, y: 0 } },
+    markerPosition: [0.15, 0.35, -0.05] as [number, number, number],
     medicalNote: 'Key indicator of mandibular size and TMJ function'
   },
   {
@@ -117,6 +119,7 @@ const MEDICAL_FEATURES = [
     description: 'Ratio of mandibular height to length',
     color: '#ff00ff',
     cameraPosition: { distance: 3.5, rotation: { x: 0, y: 1.57 } },
+    markerPosition: [-0.25, 0, 0] as [number, number, number],
     medicalNote: 'Indicates mandibular proportions and robusticity'
   },
   {
@@ -125,6 +128,7 @@ const MEDICAL_FEATURES = [
     description: 'Maximum transverse width between gonial angles',
     color: '#ffff00',
     cameraPosition: { distance: 4, rotation: { x: -0.6, y: 0 } },
+    markerPosition: [0.2, -0.15, -0.1] as [number, number, number],
     medicalNote: 'Sexually dimorphic - wider in males'
   },
   {
@@ -133,6 +137,7 @@ const MEDICAL_FEATURES = [
     description: 'Minimum breadth of upper ramus',
     color: '#00ffff',
     cameraPosition: { distance: 3, rotation: { x: 0.1, y: 1.57 } },
+    markerPosition: [-0.28, 0.2, 0] as [number, number, number],
     medicalNote: 'Indicates ramus robusticity'
   },
   {
@@ -141,6 +146,7 @@ const MEDICAL_FEATURES = [
     description: 'Minimum breadth of lower ramus',
     color: '#ff6699',
     cameraPosition: { distance: 3, rotation: { x: -0.1, y: 1.57 } },
+    markerPosition: [-0.25, -0.05, 0] as [number, number, number],
     medicalNote: 'Related to masticatory muscle attachment'
   },
   {
@@ -149,6 +155,7 @@ const MEDICAL_FEATURES = [
     description: 'Vertical distance from condylar head to gonial angle',
     color: '#ff6600',
     cameraPosition: { distance: 3.5, rotation: { x: 0, y: 1.57 } },
+    markerPosition: [-0.3, 0.25, 0] as [number, number, number],
     medicalNote: 'Correlates with masticatory muscle development'
   },
   {
@@ -157,6 +164,7 @@ const MEDICAL_FEATURES = [
     description: 'Vertical distance from coronoid tip to gonial angle',
     color: '#9966ff',
     cameraPosition: { distance: 3.5, rotation: { x: 0.1, y: 1.4 } },
+    markerPosition: [-0.18, 0.3, 0.02] as [number, number, number],
     medicalNote: 'Indicates temporalis muscle attachment area'
   },
   {
@@ -165,6 +173,7 @@ const MEDICAL_FEATURES = [
     description: 'Angle between posterior ramus border and mandibular base',
     color: '#ffaa00',
     cameraPosition: { distance: 3, rotation: { x: -0.2, y: 1.57 } },
+    markerPosition: [-0.28, -0.12, 0] as [number, number, number],
     medicalNote: 'Highly sexually dimorphic - males have more acute angles'
   },
   {
@@ -173,6 +182,7 @@ const MEDICAL_FEATURES = [
     description: 'Length of coronoid process',
     color: '#66ff99',
     cameraPosition: { distance: 2.8, rotation: { x: 0.2, y: 1.4 } },
+    markerPosition: [-0.15, 0.32, 0.02] as [number, number, number],
     medicalNote: 'Related to temporalis muscle leverage'
   },
   {
@@ -181,6 +191,7 @@ const MEDICAL_FEATURES = [
     description: 'Breadth of coronoid process',
     color: '#ff99cc',
     cameraPosition: { distance: 2.8, rotation: { x: 0.3, y: 1.2 } },
+    markerPosition: [-0.12, 0.28, 0.03] as [number, number, number],
     medicalNote: 'Indicates muscle attachment surface area'
   },
   {
@@ -189,6 +200,7 @@ const MEDICAL_FEATURES = [
     description: 'Transverse distance between condylar centers',
     color: '#cc00ff',
     cameraPosition: { distance: 4, rotation: { x: 0.4, y: 0 } },
+    markerPosition: [0.25, 0.35, -0.05] as [number, number, number],
     medicalNote: 'Related to TMJ spacing and function'
   },
   {
@@ -197,6 +209,7 @@ const MEDICAL_FEATURES = [
     description: 'Transverse distance between coronoid process tips',
     color: '#ff3366',
     cameraPosition: { distance: 3.5, rotation: { x: 0.3, y: 0 } },
+    markerPosition: [0, 0.3, 0.02] as [number, number, number],
     medicalNote: 'Indicates mandibular arch width'
   },
   {
@@ -205,6 +218,7 @@ const MEDICAL_FEATURES = [
     description: 'Distance from coronoid tip to mental foramen',
     color: '#33ccff',
     cameraPosition: { distance: 3.5, rotation: { x: -0.2, y: 0.8 } },
+    markerPosition: [-0.08, 0.05, 0.12] as [number, number, number],
     medicalNote: 'Anatomical landmark relationship'
   },
   {
@@ -213,9 +227,37 @@ const MEDICAL_FEATURES = [
     description: 'Breadth between mental foramina',
     color: '#ffcc00',
     cameraPosition: { distance: 3, rotation: { x: -0.5, y: 0 } },
+    markerPosition: [0, -0.25, 0.18] as [number, number, number],
     medicalNote: 'Indicates anterior mandibular width'
   }
 ]
+
+// 3D Feature Marker Component - smaller markers positioned on the model
+function FeatureMarker({ feature, isSelected }: { feature: typeof MEDICAL_FEATURES[0], isSelected: boolean }) {
+  if (!isSelected) return null
+  
+  return (
+    <group position={feature.markerPosition}>
+      {/* Glowing sphere marker - smaller size */}
+      <mesh>
+        <sphereGeometry args={[0.03, 16, 16]} />
+        <meshBasicMaterial color={feature.color} />
+      </mesh>
+      
+      {/* Outer glow - smaller */}
+      <mesh>
+        <sphereGeometry args={[0.05, 16, 16]} />
+        <meshBasicMaterial color={feature.color} transparent opacity={0.5} />
+      </mesh>
+      
+      {/* Pulsing ring - smaller */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.06, 0.08, 32]} />
+        <meshBasicMaterial color={feature.color} transparent opacity={0.7} side={2} />
+      </mesh>
+    </group>
+  )
+}
 
 // Loading component for OBJ model
 function ModelLoader() {
@@ -281,11 +323,11 @@ export function ObjMedicalViewer({
   }
 
   const handleZoomIn = () => {
-    setCameraDistance(prev => Math.max(prev - 0.8, 2.5))
+    setCameraDistance(prev => Math.max(prev - 1.5, 1.5))
   }
 
   const handleZoomOut = () => {
-    setCameraDistance(prev => Math.min(prev + 0.8, 18))
+    setCameraDistance(prev => Math.min(prev + 1.5, 20))
   }
 
   const getGenderAnalysis = () => {
@@ -550,6 +592,15 @@ export function ObjMedicalViewer({
                   selectedFeature={selectedFeature}
                 />
               </Suspense>
+
+              {/* Feature Markers - show selected feature marker on the model */}
+              {MEDICAL_FEATURES.map((feature) => (
+                <FeatureMarker 
+                  key={feature.id}
+                  feature={feature}
+                  isSelected={selectedFeature === feature.id}
+                />
+              ))}
 
               {/* Medical grid - only show when no feature is selected */}
               {!selectedFeature && (
