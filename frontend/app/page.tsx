@@ -150,6 +150,17 @@ export default function Home() {
         throw new Error("All measurements must be valid numbers");
       }
 
+      // Validate that not all measurements are zero or empty
+      if (numericMeasurements.every((m) => m === 0)) {
+        throw new Error("Please enter valid measurements. All values cannot be zero.");
+      }
+
+      // Validate that measurements are within reasonable ranges
+      const hasInvalidValues = numericMeasurements.some((m) => m < 0);
+      if (hasInvalidValues) {
+        throw new Error("Measurements cannot be negative values");
+      }
+
       const response = await axios.post(`${API_BASE_URL}/predict`, {
         measurements: numericMeasurements,
       });
@@ -580,7 +591,7 @@ export default function Home() {
                       </h2>
                       <p className="text-2xl font-semibold mb-6 text-green-400 ghibli-text">
                         Confidence:{" "}
-                        {(result.prediction.confidence * 100).toFixed(1)}%
+                        {result.prediction.confidence.toFixed(1)}%
                       </p>
                     </motion.div>
 
@@ -595,9 +606,7 @@ export default function Home() {
                           👩 Female
                         </div>
                         <div className="text-2xl font-bold text-white ghibli-title">
-                          {(
-                            result.prediction.probabilities.Female * 100
-                          ).toFixed(1)}
+                          {result.prediction.probabilities.Female.toFixed(1)}
                           %
                         </div>
                       </div>
@@ -606,9 +615,7 @@ export default function Home() {
                           👨 Male
                         </div>
                         <div className="text-2xl font-bold text-white ghibli-title">
-                          {(result.prediction.probabilities.Male * 100).toFixed(
-                            1
-                          )}
+                          {result.prediction.probabilities.Male.toFixed(1)}
                           %
                         </div>
                       </div>
